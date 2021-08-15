@@ -6,19 +6,269 @@
     <title>Rock, paper, scissors</title>
 
     <style>
+      
       html {
 
       }
       body {
       }
     </style>
-  </head>
+    <link rel="stylesheet" href="./styles.css">
+<!-- For the Google fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap" rel="stylesheet">
+   </head>
+
+
+
+
+
+
+
+
 
   <body>
 
-<button onclick="testFunc()">Click me</button>
+<div class = " titleDiv"><!-- div for the title -->
+<p class = "titleText90px ">Rock, paper, scissors <p>
+  <button id = "startButton" class = "startButton">
+    Start
+  </button>
+</div><!-- end div for the title -->
+
+
+<!-- Two buttons, one for New round, one for New game -->
+<!-- New round button -->
+<button id = "newRoundButton" class = "newRoundButton">
+  New round
+</button>
+<!-- New game button -->
+<button id = "newGameButton" class = "newGameButton">
+  New game
+</button>
+
+
+
+<!--All-enclosing div for Choose area, play area, result area  (class = container0)  -->
+<div class = "container0 borderBlackSolid" >
 
   
+<!--Enclosing choose-area div (class = container1), which contains :
+  1) div for "Choose…" text
+  2) div for r image
+  3) div for p image
+  4) div for s image               -->
+<div id="container1" class = "container1  borderBlackSolid rotate6"> 
+
+
+<!--    1) 
+div containing linear grad div, white div , a div each for "Choose" and "one" texts -->
+<div class = "testDivOuter rotateMinus12"> <!--  div to hold -->
+  <!--  1) the div containing text "Choose" -->
+  <!--  2) the div containing text "one" -->
+  <!--  3) the linear grad div  -->
+  <!--  4) the white div -->
+    <div class = "testInnerDiv1 rotateMinus6"> <!-- 1 -->
+      <p class = "testChooseText1" >Choose</p>
+    </div>
+    <div class = "testInnerDiv2"> <!-- 2 -->
+      <p class = "testOneText1" >one</p>
+    </div>
+    <div class = " testDiv3 " >   <!-- 3) linear gradient -->
+    <div class = " testDiv4">  <!-- 4) white background-->
+    </div>  <!-- end white-background div -->
+    </div>  <!--end linear grad div -->
+  </div> <!-- End testDivOuter  -->
+
+<!--    2)
+div containing rock image -->
+<div class = "rotate21 rockDiv borderBlackSolid" > 
+<img id = "rockImage" class = "rockScale" src="./images/rock.jpg" >
+</div> <!-- end div containing rock image -->
+
+
+
+<!--    3)
+div containing paper image -->
+<div class = "rotate159 borderBlackSolid paperDiv"> 
+<img id = "paperImage" class = "paperScale" src="./images/paper.jpg" >
+</div>
+<!-- end div containing paper image -->
+
+
+<!--    4)
+div containing scissors image -->
+<div class = "rotate45  borderBlackSolid scissorsDiv"> 
+<img id = "scissorsImage" class = "scissorsScale" src="./images/scissors.jpg" >
+</div>
+<!-- end div containing scissors image -->
+
+
+</div>  <!--End "container1" -->
+
+
+<!--Enclosing div for arrow svg (id )-->
+<div id = "arrowSVGdiv">
+<svg 
+id="mySVG" 
+xmlns="http://www.w3.org/2000/svg" 
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+width="155" height="155" 
+x="0" y="0"
+viewBox="0 0 155 155"
+>
+<circle cx="140" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="120" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="100" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="80" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="60" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="40" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="20" cy="75" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+
+
+<circle cx="130" cy="60" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="130" cy="85" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+
+<circle cx="120" cy="50" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="120" cy="95" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+
+<circle cx="110" cy="40" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+<circle cx="110" cy="105" r="10" stroke="#90236b" stroke-width="3" fill="#ebadd6" />
+
+</svg>
+</div>
+<!--End enclosing div for arrow svg -->
+
+
+<!--Enclosing div for play area  (class container2)-->
+<div id = "container2" class = "container2  borderBlackSolid rotateMinus6"> 
+
+<!-- div for "You chose…" box-->
+<div class = "testDiv1 rotateMinus12" >
+<div class = "testDiv2 ">
+  <p id = "youChoseText1"><span class = "text60px">Y</span> </p>
+  <p id = "youChoseText2"><span class = "text40px">ou</span></p>
+  <p id = "youChoseText3" class = "rotate10"> chose…</p>
+</div>
+</div>
+
+
+<!-- div for player choice box box-->
+<div id = "playerChoiceBox" class = "borderBlackSolid rotate6" >
+<img id = "playerChoiceImage">
+</div>
+
+<!-- div for "computer chose…" text box-->
+<div  class = "testDiv1 rotate10 " >
+  <div class = "testDiv2" >
+  <p id = "computerChoseText1"><span class = "text60px">C</span>omputer</p>
+  <p class = "rotate6" id = "computerChoseText2">chose…</p>
+</div>  
+</div>
+  
+<!-- div for computer choice box box-->
+<div id = "compChoiceBox" class = "borderBlackSolid rotate10" >
+<img id = "compChoiceImage" >
+</div>
+
+</div> <!--End enclosing div for play area  -->
+
+
+
+
+<!-- Enclosing div for results area -->
+<!-- This div contains -->
+<!-- 
+  1) a div containing text "Result" 
+  2) a div containing text initially "You lose"
+  3) a div containing text "Score"
+  4) a div containing four divs:
+  i) a div containing text "You:"
+  ii) a div alongside div in i) containing player's score
+  iii) a div containing text "Computer:"
+  iv) a div alongside div in iii) containing computer's score
+-->
+<div id ="resultsDiv" class = "resultsDiv rotate21">
+
+
+<!-- First the div containing the <p> that is text "Result" , green-yellow border 4px-->  
+<div class = "resultTextDiv">
+  <p class = "pinkyRedText120px" >Result</p>
+</div> <!-- End div containing <p> that is text "result" -->  
+
+<!-- Now div for text "You win!" , "You lose!" , etc -->  
+<div class = "whoWinsDiv">
+  <p id = "whoWinsText" class = "whoWinsText" ></p>
+</div>  <!-- End div  -->  
+
+
+<!-- -->  
+
+<!-- Now div containing <p> text "Score" -->  
+<div class = "scoreTextDiv">
+  <p class = "scoreText" >Score:</p>
+</div> 
+<!-- End div for text "Score" -->  
+
+
+<div class = "youCompEncDiv"> <!-- Now div to contain "You:" [your score ] "Computer:" [computer's score ] -->  
+
+<div class = "playerScoreContainer"> <!-- container  -->  
+
+<div class = "scoreYouDiv"> <!-- Now div for text "You: " -->  
+  <p class = "chooseText" >You:</p>
+</div>  <!-- End div for text "You: " -->  
+<div class = "scoreScoreDiv"> <!-- Now div for player's score -->  
+  <p id = "playerScore" class = "pinkyRedText60px" >0</p>
+</div>  <!-- End div for player's score -->  
+
+</div> <!-- end container, class = "playerScoreContainer" -->  
+
+
+
+<div class = "computerScoresContainer"> <!-- container, class = "computerScoresContainer" --> 
+<div class = "scoreCompDiv"> <!-- Now div for text "Computer: " -->  
+  <p class = "chooseText" ><span >Computer:<span></p>
+</div> <!-- End div for text "Computer: " -->  
+<div class = "scoreCompScoreDiv"> <!-- Now div for computer's score -->  
+  <p id = "computerScore" class = "pinkyRedText60px" >0</p>
+</div>  <!-- End div for computer's score -->  
+</div>  <!-- end container, class = "computerScoresContainer" --> 
+
+
+</div> <!-- End div to contain "You:" [your score ] "Computer:" [computer's score ] -->  
+
+
+
+
+
+</div>
+<!-- End enclosing div for results area -->
+
+
+
+
+<!--End container0, the enclosing div for Choose area, play area, result area    -->
+</div>
+
+<!--  ************  ************  ************ Test  area  ************  ************  ************    -->
+
+<!--Test  area    -->
+<!--
+class = "testChooseText"
+class = "testChooseText1"
+-->
+  
+
+
+
+<!--  ************  ************  ************ end Test  area  ************  ************  ************    -->
+
+
+
+
+
   </body>
 
 <script type="text/javascript" src="./js/rps.js">
@@ -28,4 +278,15 @@
 
   
 </html>
+
+
+
+
+
+
+
+
+
+
+
 

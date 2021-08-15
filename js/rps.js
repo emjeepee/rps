@@ -1,6 +1,409 @@
-// This function generates "Rock", "Paper" or "Scissors" randomly: 
+// test stuff:
+/*
+const div = document.querySelector('#content');
+div.classList.toggle('visible');
+const xxx = document.querySelector('#playerChoiceBox');
+How to change the src attrib of an <img>:
+document.getElementById("myImage").src = "landscape.jpg";
+*/
+
+
+// ----------- // ----------- // ----------- // ----------- // ----------- // ----------- // -----------
+
+// INITIALISATION:
+const load = () => {
+
+
+
+
+                    }
+window.onload = load;
+// end INITIALISATION:
+
+// First get the elements to refer to 
+// The div containing the "Choose one" area (including the r, p and s <imgs>):
+const container1 = document.querySelector('#container1');
+// The div containing the arrow:
+const arrowSVGdiv = document.querySelector('#arrowSVGdiv');
+// The div containing the play area:
+const container2 = document.querySelector('#container2');
+// The div containing the results area:
+const resultsDiv = document.querySelector('#resultsDiv');
+
+
+// consts for the New game and New round buttons:
+const nRbutton = document.getElementById('newRoundButton');
+const nGbutton = document.getElementById('newGameButton');
+
+
+const playerChoiceImage   = document.getElementById('playerChoiceImage');
+const compChoiceImage     = document.getElementById('compChoiceImage');
+const playerChoiceBox     = document.getElementById('playerChoiceBox');
+const compChoiceBox       = document.getElementById('compChoiceBox');
+
+
+// Set the <img>s in the play area to pont to no image 
+playerChoiceImage.src = "" ;
+compChoiceImage.src = "" ;
+
+const whoWinsText         = document.getElementById('whoWinsText');
+const playerScore         = document.getElementById('playerScore');
+const computerScore       = document.getElementById('computerScore');
+
+
+// consts for the <img>s in the "Choose one" area:
+const rockImage     = document.getElementById('rockImage');
+const paperImage    = document.getElementById('paperImage');
+const scissorsImage = document.getElementById('scissorsImage');
+
+// const for start button:
+const startButton = document.getElementById('startButton');
+
+
+// Make an instance of the DoubleCounter class:
+doubleCounterInstance1 = new DoubleCounter(0,0) ;
+
+
+
+// make opacity of the "choose one", play and result areas 0.3:
+changeOpacity(container1, 0.3) ;
+changeOpacity(arrowSVGdiv, 0.3) ;
+changeOpacity(container2, 0.3) ;
+
+
+
+
+
+
+
+// Event handlers
+
+// -----------------------------------------------------------
+// The event handlers for nRbutton and nGbutton
+// differ only in that the one for nGbutton
+// must reset the double counter and put its values
+// in the appropriate places in the result area.
+
+// Set click event handler for New round and New game buttons…
+nRbutton.addEventListener("click", startNewRound) ;
+nGbutton.addEventListener("click", startNewGame) ;
+
+function startNewRound(){
+  // Simply call startNewPlay:
+  startNewPlay() ;
+                        }
+
+function startNewGame(){
+  // Zero the counters in doubleCounterInstance1;
+  doubleCounterInstance1.publicZeroComptrCounter() ;
+  doubleCounterInstance1.publicZeroPlayerCounter() ;
+  // Put the counter values in the correct 
+  // places in the results area:
+  playerScore.innerHTML = doubleCounterInstance1.retrievePlayerCounter() ;
+  computerScore.innerHTML = doubleCounterInstance1.retrieveComptrCounter() ;
+  // Call startNewPlay:
+  startNewPlay() ;
+                        }
+
+// Callback startNewPlay must:
+// 1) set opacity of nRbutton, nGbutton to 0.3
+// 2) remove event handlers attached to nRbutton, nGbutton
+// 3) re-add event listeners to the r, p and s <img>s
+// 4) set opacity of "Choose one" area to 1.0
+// 5) set opacity of arrow, play and result areas to 0.3
+// 6) remove the existing images from the play area
+// 7) Clear the "You lose" , etc text from the 
+//    div it's in
+function startNewPlay() {
+  // 1)
+  changeOpacity(nRbutton, 0.3) ;
+  changeOpacity(nGbutton, 0.3) ;
+
+  // 2) 
+  nRbutton.removeEventListener("click", startNewPlay)
+  nGbutton.removeEventListener("click", startNewPlay)
+
+  // 3) 
+  rockImage.addEventListener("click", rockClickStartsGame)
+  paperImage.addEventListener("click", paperClickStartsGame)
+  scissorsImage.addEventListener("click", scissorsClickStartsGame)
+  
+  // 4) and 5) 
+  changeOpacity(container1, 1.0) ;
+  changeOpacity(arrowSVGdiv, 0.3) ;
+  changeOpacity(container2, 0.3) ;
+  changeOpacity(resultsDiv, 0.3) ;
+  
+  // 6) 
+  playerChoiceImage.src = " "
+  compChoiceImage.src = " "
+
+  // 7) 
+  whoWinsText.innerHTML = " " ;
+                         } // end callback startNewPlay
+
+// -----------------------------------------------------------
+
+
+// Set click event handler for start button…
+startButton.addEventListener("click", startFn)                    
+
+// The startFn callback must:
+// 1) Add the event listeners to the r, p and s <img>s
+// 2) Change opacity of the "Choose" area to 1
+// 3) Remove the event listener from startButton
+// 4) Remove the "active" class from the start button
+//    so that it can't be clicked again until the 
+//    player clicks the reset button.
+function startFn() {
+// 1)
+rockImage.addEventListener("click", rockClickStartsGame)
+paperImage.addEventListener("click", paperClickStartsGame)
+scissorsImage.addEventListener("click", scissorsClickStartsGame)
+
+// 2)
+changeOpacity(container1, 1.0) ;
+
+// 3)
+startButton.removeEventListener("click", startFn)
+
+// 4) 
+this.classList.remove("active");
+                   }
+
+
+// -----------------------------------------------------------
+
+
+// Set the event listeners for the r, p and s <img>s  
+                                                     
+// These fns set the same event listener for 
+// the r/p/s <img> the player can click. The callback 
+// is game1(), which takes two args that change from <img> to <img>:
+// 1) a path to the image user clicks (a string)
+// 2) a scaling class to add (a string)
+
+rockImage.addEventListener("click", rockClickStartsGame)
+paperImage.addEventListener("click", paperClickStartsGame)
+scissorsImage.addEventListener("click", scissorsClickStartsGame)
+
+
+function rockClickStartsGame(){
+game1("./images/rock.jpg", "RockScale") ;
+                              }
+
+function paperClickStartsGame(){
+game1("./images/paper.jpg", "PaperScale") ;
+                               }
+
+function scissorsClickStartsGame(){
+game1("./images/scissors.jpg", "ScissorsScale") ;
+                                  }
+
+
+// Now define game1(), the callback that runs when the player clicks on
+// either the r the p or the s <img>. In this fn…
+// arg path is a path to the image, eg "./images/paper.jpg".
+// arg classToAdd is the string for the class to add   
+// to the <img> of id playerChoiceImage. This class simply scales the image correctly.
+// This fn…
+// 1)  puts the image the player clicked on 
+//     in the "Choose" area into correct box in play area
+//     and gives the <img> in that box the correct 
+//     class (which it does for scaling the <img>)
+// 2)  makes visible the boxes containing <img>s for 
+//     player choice and computer choice
+// 3)  Sets opacity of "choose" area to 0.3 
+//     Sets the opacity of the svg bubble arrow to 1.0 
+//     Sets the opacity of the play area to 1.0  
+//     Sets the opacity of the results area to 1.0  
+// 4)  Remove event ;istener from r, p, s <img>s
+// 5)  Calls a fn that generates the computer choice of r, p or s
+// 6)  puts the computer choice image in the correct box in play area 
+// 7)  works out who won
+// 8)  Shows the results area
+// 9)  Displays "You win" / "Computer wins"
+// 10)  Displays the score
+// 11) Shows/enables New game and New round buttons
+
+function game1(path, classToAdd) {
+    
+  // 1) Make <img> in play area point to same image
+  //    the player clicked on in "Choose" area
+  //    then apply scaling class:
+  playerChoiceImage.src = path;
+    addClassesToElmnt (playerChoiceImage, classToAdd )
+  
+  // 2)
+  choiceBoxesVisibility("visible") ;
+  
+  // 3)
+  changeOpacity(container1, 0.3) ;
+  //do the following after a delay:
+  setTimeout(function(){
+     changeOpacity(arrowSVGdiv, 1.0) ; }, 300);
+  
+  setTimeout(function(){
+    changeOpacity(container2, 1.0) ; }, 600);
+      
+    setTimeout(function(){
+      changeOpacity(resultsDiv, 1.0) ; }, 900);
+    
+  // 4) Remove event listeners (so player cannot click again
+  //    until new game or new round):
+  rockImage.removeEventListener("click", rockClickStartsGame)
+  paperImage.removeEventListener("click", paperClickStartsGame)
+  scissorsImage.removeEventListener("click", scissorsClickStartsGame)
+  
+  // 5) 
+  // computerPlay1() returns a random selection of one
+  // of the strings 'rock', 'paper' and 'scissors':
+  let computerPlay2 = computerPlay1() ; // computerPlay2 = "rock.jpg" (for example)
+  let computerSelection1 = computerPlay2 ; // will be used later in this fn
+  // Annoying stuff:
+  computerSelection1 = removeLastNchars(computerSelection1, 4)
+  computerPlay2 = ("./images/").concat(computerPlay2) // computerPlay2 = (for example) "./images/rock"
+    
+  // 6)
+  compChoiceImage.src = computerPlay2;  
+
+  // 7) Who won?
+  // An annoying sand not interesting step:
+  computerSelection1 = firstLetterUC(computerSelection1) // computerSelection1 = "Rock" (eg)  
+  // Another annoying sand not interesting step:
+  let playerSelection1 = removeLastNchars(classToAdd, 5) ; //    playerSelection1 = "Paper" (eg)  
+                                 
+  // So now we have vars holding strings 
+  // representing the player selection and 
+  // the computer selection.
+  // playRound(arg1, arg2) takes those selections 
+  // and returns array [*result*, *WLD*], where 
+  // *result* is a var holding a string message 
+  // (one of vars youWin, weWin, draw) and 
+  // *WLD* is one of strings "CW", "PW" and"NW":
+  let roundResult1 = playRound(playerSelection1, computerSelection1) 
+   
+  // const whoWinsText is for the <p> that shows the "who won" text
+  // const playerScore is for the <p> that shows the player's score
+  // const computerScore is for the <p> that shows the computer's score
+  // set the inner HTML of whoWinsText:
+    whoWinsText.innerHTML = roundResult1[0] ;
+  // debugger
+  // use fn scoreRound1 here. it will update the scores, seting :
+  // the inner HTML of playerScore and of computerScore:
+  scoreRound1(roundResult1) ;
+
+  // 11) enable buttons for new game and new round:
+  changeOpacity(nRbutton, 1.0) ;
+  changeOpacity(nGbutton, 1.0) ;
+
+              } // end function game1
+
+
+
+/*
+let str1 = "Hello ";
+let str2 = "world!";
+let res = str1.concat(str2);
+*/
+
+// Make first letter of string upper case
+function firstLetterUC (strng) {
+// Separate out first letter:
+  let firstLetter = strng.charAt(0)  ;
+// Set first letter to UC:  
+  firstLetter = firstLetter.toUpperCase() ;
+// return concatenated strings:  
+return firstLetter.concat(strng.slice(1))
+                               } // end fn
+
+                                                     
+// Remove last five letters of a string:
+function removeLastFive (strng) {
+  return strng.slice(0, -5)
+                                 } // end fn
+  
+// Remove last n letters of a string:
+function removeLastNchars (strng, n) {
+  return strng.slice(0, -n)
+                                 } // end fn
+
+
+
+// Set some variables for html elements frequently referred to:
+//--------------------------------------------------------------
+
+
+
+
+
+
+// end INITIALISATION                                                      
+// ----------- // ----------- // ----------- // ----------- // ----------- // ----------- // -----------
+
+// Functions used by the event handler functions:
+// This function make the divs containing player's and computer's choices of <img> visible/hidden.
+// Has one arg:
+// the string for the value of the visibility property of the element (ie "visible" or "hidden")
+function choiceBoxesVisibility (vis) {
+  playerChoiceBox.style.visibility = vis ;
+  compChoiceBox.style.visibility = vis ;
+                                     }
+
+// This function adds & removes appropriate classes of an element.
+// It has two args:
+// 1) The element in question (arg elmnt)
+// 2) An array of classes (strings) to add (arg classesToAdd)
+function addClassesToElmnt (elmnt, classesToAdd) {
+  elmnt.className = ''; // removes all classes from element
+  let classesToAddVar    = "" ;  // blank string
+  // Now loops through the strings in array classesToAdd
+  // and concatenate them with blank string in var
+  // classesToAddVar: 
+    for (let i = 0; i < classesToAdd.length; i++) {
+    classesToAddVar += classesToAdd[i] ;
+                                                  } // end for
+      // Now add all the classes to the element in question:                                                
+    elmnt.classList.add (classesToAddVar);
+                                                  }
+
+
+// This fn canges an element's opacity:
+// It takes two args:
+// 1) a ref to the element
+// 2) the value of the opacity
+
+function changeOpacity(elmnt, opcty) {
+elmnt.style.opacity = opcty ;
+                                     }
+
+
+
+// End of event listeners, their callbacks and associated functions ---- // --------- ---------- 
+// --------- ---------- // --------- ---------- // --------- ---------- // --------- ---------- 
+
+
+
+
+
+
+
+
+// These functions generate "Rock" /"rock.jpg", "Paper"/"paper.jpg" or "Scissors"/"scissors.jpg" randomly: 
+// Generates, eg, "Rock"
 function computerPlay() {
 let myArray = ["Rock", "Paper", "Scissors"] ;
+
+let myNum = Math.floor(Math.random() * 3) ;
+
+let computerSlctn = myArray[myNum] ;
+
+return computerSlctn ;
+                        }
+//----
+// Generates, eg, "paper.jpg"
+function computerPlay1() {
+let myArray = ["rock.jpg", "paper.jpg", "scissors.jpg"] ;
 
 let myNum = Math.floor(Math.random() * 3) ;
 
@@ -97,14 +500,10 @@ return [playerPlay, computerPly]
 //------------
 
 
-
-
-
-
-
 //------------
 // This function plays a round of R,P,S by playing the 
-// computer-generated selection against the player selection. It
+// computer-generated selection against the player selection 
+// (both strings, eg "Rock" and "Scissors"). It
 // returns a message that depends on the outcome of the game.
 // You feed the function the player's selection and the computer's.
 // This function returns an array containing 
@@ -114,11 +513,12 @@ function playRound(playerSelection, computerSelection) {
   
 let concaten = computerSelection.concat(playerSelection) ;
 let result = "" ;
-
-let weWin = `You Lose, Loser! Our ${computerSelection} beats your ${playerSelection}`;
-let youWin = `Damn, we Lose! Your ${playerSelection} beats our ${computerSelection}`;
-let draw = `It's a draw! ; We both chose ${computerSelection}` ;
 let WLD = " " ;
+
+let weWin = `You lose! Our ${computerSelection} beats your ${playerSelection}`;
+let youWin = `We lose! Your ${playerSelection} beats our ${computerSelection}`;
+let draw = `It's a draw! ; We both chose ${computerSelection}` ;
+
 
 // Below CW = computer wins ; PW = player wins ; NW = nobody wins (ie it's a draw)
 switch(concaten) {
@@ -203,6 +603,15 @@ function initPlayerCounter(initValue){
   playerCounter = initValue ;
                            } ; // end initPlayerCounter
 
+// The private zero-counters functions:
+function zeroComptrCounter(){
+  comptrCounter = 0 ;
+                            } ; // end incComptrCounter
+
+function zeroPlayerCounter(){
+  playerCounter = 0 ;
+                            } ; // end incPlayerCounter
+
 
 // Now public privileged methods (which call private methods):
 // The getters:
@@ -223,7 +632,7 @@ this.incPlayerCounter = function () {
 incPlayerCounter() ;
                                     } ; // end incPlayerCounter
 
-// The (initial-value) seters:
+// The (initial-value) setters:
 this.setComptrCounter = function (initValue) {
 initComptrCounter(initValue) ;
                                      } ; // end incComptrCounter
@@ -231,6 +640,15 @@ initComptrCounter(initValue) ;
 this.setPlayerCounter = function (initValue) {
 initPlayerCounter(initValue) ;
                                     } ; // end incPlayerCounter
+
+// The zero-counter functions:
+this.publicZeroComptrCounter = function () {
+  zeroComptrCounter() ;
+                                           } ; // end retrieveComptrCounter
+  
+this.publicZeroPlayerCounter = function () {
+  zeroPlayerCounter()
+                                            } ; // end retrievePlayerCounter
 
 
 // Constructor code (by which instantiator sets inital values of the vars):
@@ -284,7 +702,37 @@ if (roundResult[1] == "NW") {
 
 // ------------
 
+// Created the following fn Thurs12Aug21:
+// This function takes as argument the array returned by function 
+// playRound, which is an array containing two members: [0] is a
+// sentence that says who won; [1] is a two-letter code for who won
+// . This function 
+// 1) scores the round, after reading roundResult.
+//    This means incrementing a counter.
+//    console.logs the (long) result text.    
+// 2) console.logs roundResult and the score (eg
+// "The score is: Computer 3 Player 2")
 
+function scoreRound1(roundResult) {
+  // IMPORTANT!!!
+  // var scoreMessage when declared below (outside the if(){}) and then called inside the if(){}
+  // Gives the previous value of the counters! NOT the correct values!!!
+    if (roundResult[1] == "CW") {
+      // increment correct counter:
+      doubleCounterInstance1.incComptrCounter() ;
+      // update computer score:
+      computerScore.innerHTML = doubleCounterInstance1.retrieveComptrCounter()
+                               }// end if
+  
+  if (roundResult[1] == "PW") {
+      // increment correct counter:
+      doubleCounterInstance1.incPlayerCounter() ;
+      // update player score:
+      playerScore.innerHTML = doubleCounterInstance1.retrievePlayerCounter()
+                               }// end if
+  
+                                 }   // end scoreRound              
+  
 
 
 
@@ -292,12 +740,12 @@ if (roundResult[1] == "NW") {
 
 // The following fn 
 // First some gobal vars + a global array that go with fn showResAndScore():
-let computerScore     = 0  ;
-let playerScore       = 0  ; 
-let playerSelection   = "" ;
-let computerSelection = "" ;
-let myArray           = [] ;
-let roundResult       = [] ;
+// let computerScore     = 0  ;
+// let playerScore       = 0  ; 
+//let playerSelection   = "" ;
+//let computerSelection = "" ;
+//let myArray           = [] ;
+//let roundResult       = [] ;
 
 function showResAndScore (firstPrompt, secndPrompt) { 
 // examFunction returns array [computerPlay, playerPlay]
@@ -376,12 +824,8 @@ return reformatInput(playerInput)
                                               }
 // ///////////////////// // // ///////////////////// // 
 
-    
+  
+/*
+*/
 
 
-
-// const playerSelection = "rock";
-// const computerSelection = computerPlay();
-// console.log(playRound(playerSelection, computerSelection));
-
-// console.log(playRound("rOcK", computerSelection))
